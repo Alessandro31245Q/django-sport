@@ -1,0 +1,191 @@
+<!-- HEADER -->
+{% load static %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SportConnect </title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/imgs/theme/favicon.svg' %}" />
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+</head>
+
+<body>
+    <header class="header-area header-style-1 header-height-2">
+        <div class="mobile-promotion">
+            <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
+        </div>
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="logo logo-width-1 d-flex align-items-center">
+                        <a href="{% url 'home' %}" class="d-flex align-items-center" style="text-decoration: none;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="70" height="70" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32" />
+                            </svg>
+                            <span class="ms-2" style="font-size: 1.25rem; color: currentColor;">SportConnect</span>
+                        </a>
+                    </div>
+                    
+                    <div class="header-right">
+                        <div class="search-style-2">
+                        </div>
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+
+                                {% if not user.is_authenticated%}
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'login' %}">
+                                        <img class="svgInject" alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-user.svg' %}" />
+                                    </a>
+                                    <a href="{% url 'login' %}"><span class="lable ml-0">&nbsp;Login</span></a>
+                                </div>
+
+                                {% else %}
+
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'profile' %}">
+                                        <img class="svgInject" alt="Nest" src="{% static 'assets/imgs/theme/icons/dashboard.svg' %}" />
+                                    </a>
+                                    <a href="{% url 'profile' %}"><span class="lable ml-0">&nbsp;&nbsp;{{user}}</span></a>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                        <ul>
+                                            <!-- Solo visible para el superusuario -->
+                                            {% if user.is_superuser %}
+                                                <li><a href="page-account.html"><li>
+                                                    <a href="{% url 'all_users'%}">
+                                                      <!-- Icono SVG directamente dentro del enlace -->
+                                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="9" cy="7" r="4" />
+                                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                                      </svg>
+                                                      Usuarios
+                                                    </a>
+                                                  </li>
+                                                <li><a href="{% url 'sports_list' %}"><i class="fi fi-rs-settings-sliders mr-10"></i>Deportes</a></li>
+                                                <li>
+                                                    <a href="{% url 'court_list' %}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" class="main-grid-item-icon mr-10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                            <circle cx="12" cy="12" r="10" />
+                                                            <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32" />
+                                                        </svg>
+                                                        Canchas
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            
+                                            <!-- Visible para todos los usuarios -->
+                                            <li>
+                                                <a href="{% url 'view_users' %}">
+                                                    <!-- Ícono de Feather -->
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15" class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                                        <circle cx="8.5" cy="7" r="4" />
+                                                        <polyline points="17 11 19 13 23 9" />
+                                                    </svg>
+                                                    Compañeros
+                                                </a>
+                                            </li>
+                                            
+                                            <li><a href="{% url 'logout' %}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                                           
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<!--  CONTENIDO BODY -->
+{% block content %}
+{% endblock %}
+
+<!-- FOOTER PIE DE PAGINA -->
+<footer class="main">
+       
+        
+      
+    <div class="container pb-30">
+        <div class="row align-items-center">
+            <div class="col-12 mb-30">
+                <div class="footer-bottom"></div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <p class="font-sm mb-0">&copy; 2024, <strong class="text-brand">Alessandro</strong> - Ingenieria de Software <br />All rights reserved</p>
+            </div>
+            <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
+                
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
+                <div class="mobile-social-icon">
+                    <h6>Follow Us</h6>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}" alt="" /></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}" alt="" /></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}" alt="" /></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}" alt="" /></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}" alt="" /></a>
+                </div>
+                <p class="font-sm">Si puedes imaginarlo puedes programarlo</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="text-center">
+                <img src="{% static 'assets/imgs/theme/loading.gif' %}" alt="" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vendor JS-->
+<script src="{% static  'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/slick.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.syotimer.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/wow.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'assets/js/plugins/magnific-popup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/waypoints.js' %}"></script>
+<script src="{% static 'assets/js/plugins/counterup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/images-loaded.js' %}"></script>
+<script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
+<script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.elevatezoom.js' %}"></script>
+<!-- Template  JS -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/shop.js' %}"></script>
+</body>
+
+</html>

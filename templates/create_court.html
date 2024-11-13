@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="main">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-8">
+                            <div class="login_wrap widget-taber-content background-white">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h1 class="mb-5">Registrar Nueva Cancha</h1>
+                                    </div>
+                                    <form action="{% url 'create_court' %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <!-- Campo para el título -->
+                                        <div class="form-group">
+                                            <label for="title">Nombre de la Cancha</label>
+                                            <input type="text" id="title" name="title" class="form-control" placeholder="Nombre de la cancha" required>
+                                        </div>
+
+                                        <!-- Campo oculto para el slug -->
+                                        <input type="hidden" id="slug" name="slug">
+
+                                        <!-- Campo para seleccionar la categoría -->
+                                        <div class="form-group">
+                                            <label for="category">Categoría</label>
+                                            <select id="category" name="category" class="form-control" required>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}">{{ category }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <!-- Campo para seleccionar el barrio -->
+                                        <div class="form-group">
+                                            <label for="barrio">Barrio</label>
+                                            <select id="barrio" name="barrio" class="form-control" required>
+                                                <option value="">Selecciona un barrio</option>
+                                                {% for barrio in barrios %}
+                                                    <option value="{{ barrio }}">{{ barrio }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <!-- Campo para la imagen destacada -->
+                                        <div class="form-group">
+                                            <label for="featured_image">Imagen Destacada</label>
+                                            <input type="file" id="featured_image" name="featured_image" class="form-control">
+                                        </div>
+
+                                        <!-- Campo para la descripción corta -->
+                                        <div class="form-group">
+                                            <label for="short_description">Descripción Corta</label>
+                                            <textarea id="short_description" name="short_description" class="form-control" rows="4" required></textarea>
+                                        </div>
+
+                                        <!-- Campo para el cuerpo de la cancha -->
+                                        <div class="form-group">
+                                            <label for="sport_body">Cuerpo de la Cancha</label>
+                                            <textarea id="sport_body" name="sport_body" class="form-control" rows="6" required></textarea>
+                                        </div>
+
+                                        <!-- Campo para el estado -->
+                                        <div class="form-group">
+                                            <label for="status">Estado</label>
+                                            <select id="status" name="status" class="form-control" required>
+                                                {% for value, label in court_status_choices %}
+                                                    <option value="{{ value }}">{{ label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+
+                                        <!-- Campo para saber si es destacada -->
+                                        <div class="form-group">
+                                            <label for="is_featured">¿Destacada?</label>
+                                            <input type="checkbox" id="is_featured" name="is_featured">
+                                        </div>
+
+                                        <!-- Botón para enviar el formulario -->
+                                        <div class="login_footer form-group mb-50">
+                                            <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold">
+                                                Crear Cancha
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Script para generar el slug automáticamente
+    document.getElementById('title').addEventListener('input', function() {
+        const title = this.value;
+        const slug = title.toLowerCase()
+                          .trim()
+                          .replace(/[^a-z0-9]+/g, '-')  // Reemplaza espacios y caracteres especiales con guiones
+                          .replace(/^-+|-+$/g, '');     // Elimina guiones al inicio o final
+        document.getElementById('slug').value = slug;
+    });
+</script>
+
+{% endblock %}

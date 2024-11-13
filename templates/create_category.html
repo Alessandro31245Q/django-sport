@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="main">
+    <div class="page-content pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-8">
+                            <div class="login_wrap widget-taber-content background-white">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h1 class="mb-5">Registrar Nueva Categoría</h1>
+                                    </div>
+                                    <form action="{% url 'create_category' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <label for="category_name">Nombre de la Categoría</label>
+                                            <input type="text" id="category_name" name="category_name" class="form-control" placeholder="Nombre de la categoría" required>
+                                        </div>
+                                        <br>
+                                        <div class="login_footer form-group mb-50">
+                                            <button type="submit" class="btn btn-fill-out btn-block hover-up font-weight-bold">
+                                                Crear Categoría
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main">
+    <div class="page-content mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 m-auto">
+                    <div class="single-page pt-50 pr-30">
+                        <div class="single-header style-2" style="text-align: center;">
+                            <h2 class="mb-10">{{ single_sport.title }}</h2>
+                            <p><strong>Barrio:</strong> {{ single_sport.barrio }}</p>
+                            <p><strong>Fecha de Registro:</strong> {{ single_sport.created_at|date:"d M Y" }}</p>
+                        </div>
+                        <figure class="single-thumbnail" align="center">
+                            <img src="{{ single_sport.featured_image.url }}" alt="">
+                        </figure>
+                        <div class="single-content">
+                            <p>{{ single_sport.sport_body }}</p>
+
+                            {% if user.is_authenticated %}
+                                <div class="user-rating">
+                                    <h4>Tu Calificación y Comentario:</h4>
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <label for="rating">Calificación:</label>
+                                        <select name="rating" id="rating" required>
+                                            <option value="1" {% if user_rating and user_rating.score == 1 %}selected{% endif %}>1</option>
+                                            <option value="2" {% if user_rating and user_rating.score == 2 %}selected{% endif %}>2</option>
+                                            <option value="3" {% if user_rating and user_rating.score == 3 %}selected{% endif %}>3</option>
+                                            <option value="4" {% if user_rating and user_rating.score == 4 %}selected{% endif %}>4</option>
+                                            <option value="5" {% if user_rating and user_rating.score == 5 %}selected{% endif %}>5</option>
+                                        </select>
+                                        <label for="comment">Comentario:</label>
+                                        <textarea name="comment" id="comment" rows="3">{{ user_rating.comment|default_if_none:'' }}</textarea>
+
+                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                
+                            {% endif %}
+
+                            <hr>
+
+                            <h4>Comentarios de Otros Usuarios:</h4>
+                            {% for rating in all_ratings %}
+                                <div class="user-comment">
+                                    <p><strong>{{ rating.user.username }}</strong> - Calificación: {{ rating.score }}</p>
+                                    <p>{{ rating.comment }}</p>
+                                    <p><small>{{ rating.created_at|date:"d M Y, H:i" }}</small></p>
+                                </div>
+                                <hr>
+                            {% empty %}
+                               
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

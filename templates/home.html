@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+   
+{% block content %}
+    
+ <main class="main">
+        <div class="page-header mt-30 mb-75">
+            <div class="container">
+                <div class="archive-header">
+                    <div class="row align-items-center">
+                        <div class="col-xl-3">
+                            <h1 class="mb-15">Deportes & Canchas</h1>
+                            <div class="breadcrumb">
+                                <a href="{% url 'home' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 text-end d-none d-xl-block">
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="shop-product-fillter mb-50 pr-30">
+                            <div class="totall-product">
+                                <h2>
+                                    <img class="w-36px mr-10" src="{% static 'assets/imgs/theme/icons/category-1.svg' %}" alt="" />
+                                    Canchas Deportivas
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="loop-grid loop-list pr-30 mb-50">
+
+                            {% for court in featured_courts %}
+                            <article class="wow fadeIn animated hover-up mb-30 animated">
+                                <div class="post-thumb" style="background-image: url({{ court.featured_image.url}})"></div>
+                                <div class="entry-content-2 pl-50">
+                                    <h3 class="post-title mb-20">
+                                        <a href="{% url 'sports' court.slug %}"> {{ court.title }}</a>
+                                    </h3>
+                                    <p class="post-exerpt mb-40"> {{ court.short_description }}</p>
+                                    <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
+                                        <div>
+                                            <span class="post-on">{{ court.created_at }}</span>
+                                            <span class="hit-count has-dot"> {{court.barrio }}</span>
+                                        </div>
+                                        <a href="{% url 'sports' court.slug %}" class="text-brand font-heading font-weight-bold"> Ver mas <i class="fi-rs-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </article>
+                            {% endfor %}
+                        </div>
+                        
+                    </div>
+                    <div class="col-lg-3 primary-sidebar sticky-sidebar">
+                        <div class="widget-area">
+                            
+                            {% include 'includes/deporte_search.html' %}
+                            {% include 'includes/category_list.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
+
+{% endblock %}
+   

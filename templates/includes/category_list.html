@@ -1,0 +1,10 @@
+<div class="sidebar-widget widget-category-2 mb-50">
+    <h5 class="section-title style-1 mb-30">Deportes</h5>
+    <ul>
+        {% for cat in categories %}
+        <li>
+            <a href="{% url 'sport_by_category' cat.id %}"> {{cat.category_name}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

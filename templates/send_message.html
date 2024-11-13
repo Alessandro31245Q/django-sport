@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="main">
+    <div class="container py-4">
+        <div class="chat-header">
+            <h2>Conversación con {{ receiver.first_name }} {{ receiver.last_name }}</h2>
+        </div>
+
+        <div class="chat-container">
+            <div class="conversation">
+                {% for message in messages %}
+                <div class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <div class="message-box">
+                        <p class="message-text"><strong>{{ message.sender.username }}:</strong> {{ message.content }}</p>
+                        <small class="message-time">{{ message.timestamp|date:"d M Y H:i" }}</small>
+
+                        {% if message.sender == request.user %}
+                        <form method="POST" action="{% url 'delete_message' message.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <!-- Botón con ícono de basura -->
+                            <button type="submit" class="btn btn-danger btn-sm mt-2">
+                                <i class="fas fa-trash"></i> <!-- Ícono de basura -->
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="message-form-container">
+            <form method="POST" class="message-form">
+                {% csrf_token %}
+                <textarea class="form-control" rows="4" name="message" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                <button type="submit" class="btn btn-send mt-3">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        /* Estilos generales para el chat */
+        .chat-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .conversation {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 8px 15px;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message-box {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 12px;
+            background-color: #f1f1f1;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-box {
+            background-color: #dcf8c6; /* Color verde claro para los mensajes enviados */
+        }
+
+        .message.received .message-box {
+            background-color: #e6e6e6; /* Gris claro para los mensajes recibidos */
+        }
+
+        .message-time {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* Estilos del formulario de mensaje */
+        .message-form-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .message-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        textarea.form-control {
+            resize: none;
+            font-size: 1em;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+
+        textarea.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-send {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-send:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos para el botón con ícono de basura */
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
+</main>
+{% endblock %}
